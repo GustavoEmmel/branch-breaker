@@ -1,0 +1,34 @@
+# Authoring validation
+
+Validated on 2026-10-24.
+
+## Format and installation
+
+- Passed the Codex skill-creator frontmatter/scaffold validator.
+- Checked skill naming, description length, Codex UI metadata, and local reference links.
+- Installed at user scope, with a global Codex link resolving to the canonical skill directory.
+- Checked that skill instructions contain no application-specific paths, startup commands, or required project configuration.
+
+## Executed forward evaluation
+
+A separate agent followed the skill against a disposable Python HTTP API with a correct baseline, a feature branch, documented contracts, and three passing existing tests. The evaluation used real loopback HTTP requests, fresh processes/fixtures, saved reproductions, independent reads, and baseline comparisons. Application source files were preserved.
+
+The feature run executed 19 focused scenarios: 10 passed and 9 failed. The failures reduced to three distinct confirmed defects:
+
+| Defect | Why ordinary happy-path coverage missed it |
+|---|---|
+| A rejected bulk update still persisted invalid data | Returning an error was insufficient; the subsequent read exposed the write |
+| A decomposed Unicode label disappeared from search | Saving worked, but the unchanged search consumer used a different normalization contract |
+| Export corrupted commas, quotes, and newlines | Simple labels exported successfully; structured CSV parsing exposed column/row damage |
+
+Each defect also had a minimal reproduction. Two baseline controls passed. The generated evidence recorded that started processes stopped and source content remained unchanged.
+
+The evaluator encountered the expected defect list during agent discovery. This is therefore a **known-defect execution and reporting check**, not a blind bug-discovery benchmark or a detection-rate claim.
+
+## Review and limits
+
+Review tightened source fingerprinting for already-dirty files and PR matching for verified fork checkouts. Web and mobile guidance was checked against primary Playwright, Maestro, Appium, and Detox documentation linked in the execution references.
+
+No real browser/native-device session or GitHub comment submission was executed during this authoring validation. Those instructions are reviewed guidance, not demonstrated cross-platform coverage. No report was posted to a live PR. Future evaluations should exercise real browser/native flows, unavailable-device handling, origin/fork matching, and approval/retry behavior with disposable resources.
+
+Skill format checks do not prove agent behavior. The forward evaluation establishes that this run produced executable probes and useful findings beyond the existing suite; it does not guarantee the same outcome in every codebase.
