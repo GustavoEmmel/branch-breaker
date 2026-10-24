@@ -2,6 +2,14 @@
 
 Validated on 2026-10-24.
 
+## Version 1.1 installation update
+
+`python3 -m unittest discover -s tests -v` passes all 17 installer regression tests in isolated temporary homes. Coverage includes fresh installation for all three agents, existing plain-copy migration, preservation of user files and unrelated link targets, idempotent reruns, broken/self-referencing links, paths with spaces, `CODEX_HOME`, missing source files, and unsafe ancestry in both directions. A subprocess test installs with stdin closed and reruns through Claude's installed link.
+
+Applied the installer to the author's account: preserved the old shared copy in backups, retained the working Codex/Claude links, and created the missing Cursor link. Verified all four global paths resolve to one Git checkout. A second run through the Claude link made no link replacements or additional backups and created no nested self-link. These are filesystem/discovery-path checks; launching all three agent applications was not part of the test.
+
+The skill now explicitly skips routine setup/plan-approval questions and keeps the final PR-comment consent. Publication selection and approval are combined when multiple PRs match. Agent-enforced permission prompts remain outside the skill's control.
+
 ## Format and installation
 
 - Passed the Codex skill-creator frontmatter/scaffold validator.

@@ -4,7 +4,7 @@ description: Adversarial QA for local branch changes and code reviews on web, mo
 license: MIT
 metadata:
   author: GustavoEmmel
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Branch Breaker
@@ -12,6 +12,12 @@ metadata:
 Act as a skeptical senior QA engineer. Find the shortest realistic sequence that violates a product contract, including failures outside the changed screen. A green test suite is the starting point. Read code to choose attacks, execute them, and give the developer enough evidence to fix what failed.
 
 This is a global, repository-independent skill. Discover paths, commands, frameworks, runtimes, and conventions in the current target each time. Its installation directory contains instructions; do not mistake it for the application under test. No repository configuration or another skill is required.
+
+## Start immediately; minimize interaction
+
+Invocation authorizes the local QA workflow. Infer the current repository/branch, relevant dirty changes, base, available platforms, test commands, and artifact location from the checkout and existing user instructions. State material assumptions briefly and proceed; do not ask the user to approve a plan, matrix, tool choice, routine local test, or report creation. Do not start a setup questionnaire.
+
+Run available probes autonomously. If a device, build, credentials, or contract is missing, continue independent work and record the blocked surface or ambiguity. Ask a focused question only when missing information prevents meaningful progress and cannot be discovered. Do not request login or new tools merely to complete a report. The normal interaction is the finished report followed by one optional PR-comment consent question; combine PR selection with that question when several match. Honor existing explicit publication approval without asking again. Platform-enforced permission prompts remain outside this skill's control.
 
 ## Working contract
 

@@ -17,33 +17,41 @@ It executes within disposable test environments and preserves product code. It d
 
 ## Install globally
 
-Install from `GustavoEmmel/branch-breaker`:
+One install configures **Codex, Cursor, and Claude Code** with no menus or confirmation prompts. Requires Git and Python 3.9+ on macOS/Linux (or WSL):
 
 ```sh
-npx skills add GustavoEmmel/branch-breaker -g
+mkdir -p "$HOME/.local/share"
+git clone https://github.com/GustavoEmmel/branch-breaker.git "$HOME/.local/share/branch-breaker"
+python3 "$HOME/.local/share/branch-breaker/install.py"
 ```
 
-Choose your agents interactively, or target Codex:
+The checkout stays at `~/.local/share/branch-breaker`. The installer creates these global links:
+
+| Location | Purpose |
+|---|---|
+| `~/.agents/skills/branch-breaker` | Shared skill pointing to the Git checkout |
+| `~/.codex/skills/branch-breaker` | Codex compatibility location; respects `CODEX_HOME` if set |
+| `~/.cursor/skills/branch-breaker` | Cursor user skill |
+| `~/.claude/skills/branch-breaker` | Claude Code user skill |
+
+The [installer](install.py) uses only Python's standard library. It makes filesystem changes; it does not download packages, run `npx`, launch the application, or execute QA. Inspect it before running if desired. Existing copies and conflicting links are preserved under `~/.local/state/branch-breaker/backups/`, outside skill discovery, with a manifest of original paths. Correct links are kept; repeat runs create no nested/self-referencing links. It also repairs the known accidental `branch-breaker/branch-breaker` self-link.
+
+If you already have this repository cloned, run `python3 /path/to/branch-breaker/install.py` instead. Keep that checkout in place: all agent directories use it. If it is already at the recommended location, skip cloning and run the installer. Start a new session in your agent to refresh discovery.
+
+### Update
+
+For the recommended checkout location:
 
 ```sh
-npx skills add GustavoEmmel/branch-breaker -g -a codex
+git -C "$HOME/.local/share/branch-breaker" pull --ff-only
+python3 "$HOME/.local/share/branch-breaker/install.py"
 ```
 
-The `-g` flag installs at user scope. The [Skills CLI](https://github.com/vercel-labs/skills) currently requires Node.js 22.20 or later. The skill itself is Markdown and has no runtime dependency; test execution uses the target application's tools.
-
-Manual installation for Codex, with no Node.js requirement:
-
-```sh
-mkdir -p "$HOME/.agents/skills" "${CODEX_HOME:-$HOME/.codex}/skills"
-git clone https://github.com/GustavoEmmel/branch-breaker.git "$HOME/.agents/skills/branch-breaker"
-ln -s "$HOME/.agents/skills/branch-breaker" "${CODEX_HOME:-$HOME/.codex}/skills/branch-breaker"
-```
-
-Use an unused destination; these commands intentionally do not overwrite existing skills. For other agents, use their user-level skill directory or the global CLI installer. Start a new agent session if needed to refresh skill discovery.
+Use your actual checkout path if different. All three agents read the same updated files. No manual re-copying or agent selection is needed.
 
 ## Use it
 
-In any application checkout:
+In any application checkout, invoke `$branch-breaker` in Codex or `/branch-breaker` in Claude Code/Cursor. Natural-language requests work too:
 
 ```text
 Use $branch-breaker to validate this branch against origin/main.
@@ -68,6 +76,8 @@ open PR on origin, show me the report and ask whether to comment it.
 ```
 
 You can specify a feature, base ref, local URL, test device/build, output directory, or time budget. These are natural-language instructions, not CLI flags.
+
+The skill starts immediately, infers routine choices from the checkout, and executes available checks without a plan-approval pause or setup questionnaire. Missing tools/devices become report gaps while other checks continue. It asks only when essential information cannot be discovered and meaningful progress is impossible, or once at the end before posting to a PR. Agent-enforced tool permission prompts are separate from the skill.
 
 ## Platform coverage
 
@@ -94,11 +104,14 @@ Reports stay local by default, using the requested location, the project's artif
 - [Report contract](references/report-contract.md): actionable findings and evidence requirements
 - [PR reporting](references/pr-reporting.md): origin matching and consent before publication
 - [Validation](VALIDATION.md): checks performed and their limits
+- [Installer](install.py): noninteractive global installation for all three agents
 
 ## Inspiration
 
 [The Judge](https://agent-skills.techleads.club/skills/the-judge/) informed the emphasis on evidence and actionable findings. [Microsoft's Playwright CLI skill](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/tools/skills/playwright-cli/SKILL.md) and [Playwright Test Agents](https://playwright.dev/docs/test-agents) informed the browser exploration and reproduction workflow. Platform references are linked in the execution guides.
 
 This is an original skill, not a fork or copied implementation. It uses the [Agent Skills format](https://agentskills.io/specification) and includes Codex UI metadata.
+
+Agent directory references: [Codex](https://learn.chatgpt.com/docs/build-skills), [Claude Code](https://code.claude.com/docs/en/skills#choose-where-skills-load), [Cursor](https://cursor.com/docs/skills#skill-directories).
 
 MIT licensed. Copyright © 2026 GustavoEmmel.

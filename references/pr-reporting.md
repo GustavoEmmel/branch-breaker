@@ -14,18 +14,18 @@ For GitHub, `gh pr list --repo <origin-owner/repo> --head <current-branch> --sta
 
 ## Prepare first, ask second
 
-Finish and show the local report. Prepare a self-contained sanitized Markdown comment with verdict, revision/dirty-state note, actionable findings/reproductions, coverage gaps, and fix direction. Local file links are unusable by other PR readers: include needed text inline. Do not upload private traces/screenshots/logs/fixtures without approval to share those artifacts.
+Finish and show the local report. Prepare the exact self-contained sanitized Markdown comment before asking, fitting the host's comment size limit. Include verdict, revision/dirty-state note, actionable findings/reproductions, coverage gaps, and fix direction; condense lengthy logs while retaining the full report locally. Local file links are unusable by other PR readers: include needed text inline. Do not upload private traces/screenshots/logs/fixtures without approval to share those artifacts.
 
 Offer a concrete choice with the exact PR link:
 
 > Post this QA report as a comment on [owner/repository#123](https://github.com/owner/repository/pull/123)? It includes the tested revision, findings, reproduction steps, and coverage gaps.
 
-Wait for an explicit yes. An earlier explicit instruction to post this report to this identified PR counts as authorization; don't ask twice. Silence, a general QA request, “review this branch,” or discovering a PR does not. A refusal leaves the report local without another offer in the same run.
+Wait for an explicit yes. If several PRs match, include the choices in this same final question rather than asking a separate selection question. An earlier explicit instruction to post this report to this identified PR counts as authorization; don't ask twice. Silence, a general QA request, “review this branch,” or discovering a PR does not. A refusal leaves the report local without another offer in the same run.
 
 ## Submit only the approved comment
 
 - Recheck identity, open state, and head SHA. If advanced, annotate the tested SHA and explain the new head was not validated. If closed, keep the report local.
 - Use a structured comment API or write exact Markdown to a file and use `--body-file`. Never interpolate report text into shell commands. A PR comment differs from a formal review; use a comment.
 - Include a marker such as `<!-- branch-breaker: TESTED_SHA RUN_ID -->`, replacing both tokens, to identify this submission. Before retrying an ambiguous result, look for the marker in recent comments. Avoid duplicate comments after lost responses.
-- Post once to the approved PR and preserve approved content. Do not upload extra artifacts or notify elsewhere. If a size limit prevents the full comment, show the proposed concise version/attachment plan before changing what will be shared.
+- Post once to the approved PR and preserve approved content. Do not upload extra artifacts or notify elsewhere. If submission unexpectedly rejects its size, retain the local report and report that error; do not silently publish a different comment or start a repeated approval loop.
 - Verify success and return the actual comment URL. On failure, retain the local report and state the error; never claim posting without confirmation.
