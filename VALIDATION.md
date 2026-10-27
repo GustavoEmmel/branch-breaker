@@ -1,6 +1,12 @@
 # Authoring validation
 
-Validated on 2026-10-24.
+Initial authoring validation: 2026-10-24. Latest instruction update: 2026-10-27.
+
+## Version 1.2 injection coverage update
+
+Added explicit applicability, execution, and reporting requirements for query injection, XSS, CSS injection, JavaScript injection, and prompt injection. Reviewed controlled exploit oracles and false-positive distinctions against the primary OWASP references linked in the adversarial guide. Each class now requires an evidence-backed result or an explanation of missing/inapplicable coverage, including downstream and stored-input paths.
+
+This update changes instructions and documentation only. Skill format and local reference checks passed; the existing installer was unchanged. No live injection campaign or target-model security evaluation was performed during this authoring update. The guidance is not a claim that any application has passed these security checks.
 
 ## Version 1.1 installation update
 

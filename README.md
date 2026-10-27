@@ -8,12 +8,14 @@ Works with **web, mobile web, native Android, native iOS, hybrid apps, and suppo
 
 1. Resolves the branch/base and relevant uncommitted changes, then identifies the build actually being tested.
 2. Maps changed code to callers, shared components, schemas, storage, queues, caches, and downstream consumers.
-3. Runs existing checks and the normal feature journey, then probes invalid input, Unicode, boundary values, state transitions, authorization, races, failures, and recovery.
+3. Runs existing checks and the normal feature journey, then probes invalid input, Unicode, boundary values, state transitions, authorization, races, failures, and recovery. Explicitly attempts **query injection, XSS, CSS injection, JavaScript injection, and prompt injection** on applicable surfaces, using controlled local exploit proofs and checking downstream/stored paths.
 4. Checks final state and adjacent flows: a rejected save must not mutate data; a saved label must still work in search/export; offline retries must respect the application's duplicate-handling contract.
 5. Produces a local report with severity, exact reproductions, expected/actual behavior, affected flows, evidence, and fix direction.
 6. Finds a related open PR on `origin`, when available, and **asks before posting the report as a comment**.
 
 It executes within disposable test environments and preserves product code. It does not silently implement fixes or weaken tests. Missing tools/devices produce explicit coverage gaps. `PASS (scoped)` means the described checks passed, not that the app is bug-free.
+
+Injection coverage appears in every report, including a reason when a class has no relevant surface. The agent must demonstrate the trust-boundary violation; accepting punctuation or returning a server error alone is not an exploit. Prompt-injection probes target an application's LLM and tools with synthetic data, while the QA agent treats attack text as untrusted input. “XSS” means cross-site scripting; CSS injection is covered separately as well.
 
 ## Install globally
 

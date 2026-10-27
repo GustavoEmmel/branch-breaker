@@ -11,6 +11,8 @@ Write `report.md` and place sanitized evidence/reproductions beside it. Use the 
 5. **Confirmed findings:** stable IDs, severity, affected journeys/platforms, exact reproductions, expected/actual results, durable state, and evidence below. Keep unverified risks and ambiguous requirements separate.
 6. **Checks, limitations, cleanup:** check commands/results, blocked dependencies/platforms, unobserved side effects, interrupted/time-limited probes, remaining fixtures/processes, artifact paths, next actions.
 
+Include explicit coverage rows for query injection, XSS, CSS injection, JavaScript injection, and prompt injection. Each row identifies the reachable input/sink and result/evidence, or a concrete reason for `not applicable`, `blocked`, or `not run`. For injection findings, include the payload and benign control, the violated trust boundary, protections active during the attempt, and the observed consequence. For LLM probes, distinguish model output, attempted tool use, and actual authorized/blocked execution; state model/configuration and attempts. A rejected tool request alone does not prove authorization bypass; identify a separate established model-policy violation before calling the request itself a defect. Do not label accepted special characters or a generic error as an exploit.
+
 ## Finding format
 
 ```markdown
