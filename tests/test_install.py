@@ -45,7 +45,8 @@ class InstallTests(unittest.TestCase):
         )
         (path / "references/probes.md").write_text("Fixture reference\n")
         (path / "references/report-contract.md").write_text("Fixture report contract\n")
-        for name in ("adversarial-probes", "web-execution", "mobile-execution", "pr-reporting"):
+        for name in ("adversarial-probes", "web-execution", "mobile-execution", "pr-reporting",
+                     "full-stack-quality", "learning-sources"):
             (path / f"references/{name}.md").write_text("Fixture execution reference\n")
 
     def paths(self, codex=None):
@@ -245,7 +246,8 @@ class InstallTests(unittest.TestCase):
         marker.write_text("Existing install survives validation failure")
         for missing in ["SKILL.md", "agents/openai.yaml", "references", "references/report-contract.md",
                         "references/adversarial-probes.md", "references/web-execution.md",
-                        "references/mobile-execution.md", "references/pr-reporting.md"]:
+                        "references/mobile-execution.md", "references/pr-reporting.md",
+                        "references/full-stack-quality.md", "references/learning-sources.md"]:
             with self.subTest(missing=missing):
                 invalid = self.root / ("invalid " + missing.replace("/", "-"))
                 self.make_source(invalid)

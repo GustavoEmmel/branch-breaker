@@ -2,6 +2,14 @@
 
 Initial authoring validation: 2026-10-24. Latest instruction update: 2026-10-27.
 
+## Version 1.3 full-stack quality update
+
+Expanded risk selection using the verified public sources documented in `references/learning-sources.md`. Added guidance for test-layer choice, fixture validation, data reconciliation, accessibility, visual comparison, bounded performance, recovery, and regression-test placement. Independent review found no actionable scope/provenance issues and confirmed that branch focus, injection coverage, minimal interaction, and PR-comment consent remain intact.
+
+All 17 installer regression tests pass with both new reference files included in complete-install validation. Skill format, UI metadata, local documentation links, and all four global installation paths were verified. This authoring update does not establish that any application passed accessibility, visual, performance, or resilience testing; those procedures were not run against a live target.
+
+An independent agent applied the draft to two synthetic planning requests: a localized web checkout and a backend inventory event pipeline. Its plans selected relevant layers and downstream assertions, preserved missing-baseline/device limits, avoided invented findings, and recommended regression placement without CI edits. This was a plan-only behavioral check, not application execution. It exposed ambiguous execution/verdict wording for explicitly planning-only requests; the final skill now provides a clear plan-only exception and labels validation as not run.
+
 ## Version 1.2 injection coverage update
 
 Added explicit applicability, execution, and reporting requirements for query injection, XSS, CSS injection, JavaScript injection, and prompt injection. Reviewed controlled exploit oracles and false-positive distinctions against the primary OWASP references linked in the adversarial guide. Each class now requires an evidence-backed result or an explanation of missing/inapplicable coverage, including downstream and stored-input paths.

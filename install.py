@@ -14,6 +14,7 @@ REQUIRED_FILES = (
     "SKILL.md", "agents/openai.yaml", "references/report-contract.md",
     "references/adversarial-probes.md", "references/web-execution.md",
     "references/mobile-execution.md", "references/pr-reporting.md",
+    "references/full-stack-quality.md", "references/learning-sources.md",
 )
 
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "Branch Breaker"
-  short_description: "Adversarial web and mobile QA with findings reports"
-  default_prompt: "Use $branch-breaker to validate this branch on its affected web and mobile platforms, probe edge cases and downstream regressions, and return a local report before offering to comment on a related origin PR."
+  short_description: "Adversarial full-stack QA with actionable findings"
+  default_prompt: "Use $branch-breaker to validate this branch with relevant functional, data, accessibility, visual, performance, and security probes; return reproducible findings and regression recommendations before offering an origin PR comment."

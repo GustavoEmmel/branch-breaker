@@ -1,21 +1,23 @@
 ---
 name: branch-breaker
-description: Adversarial QA for local branch changes and code reviews on web, mobile web, and native iOS/Android apps. Use when asked to smoke-test a feature, break an implementation, explore edge cases, or validate regressions before merge. Maps affected consumers, executes real flows, and attempts query injection, XSS/CSS injection, JavaScript injection, and prompt injection where applicable. Returns reproducible findings and offers to comment on a related origin PR only with user approval. Not a replacement for routine code review or a request to implement fixes.
+description: Adversarial full-stack QA for local branch changes and code reviews on web, mobile web, and native iOS/Android apps. Use to smoke-test features, break implementations, explore edge cases, and validate downstream regressions. Selects functional, data, accessibility, visual, performance, security, and resilience probes from affected risks, including query, XSS/CSS, JavaScript, and prompt injection. Returns reproducible findings and regression-test recommendations; offers an origin PR comment only with approval. Not a request to implement fixes or redesign CI.
 license: MIT
 metadata:
   author: GustavoEmmel
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Branch Breaker
 
-Act as a skeptical senior QA engineer. Find the shortest realistic sequence that violates a product contract, including failures outside the changed screen. A green test suite is the starting point. Read code to choose attacks, execute them, and give the developer enough evidence to fix what failed.
+Act as a skeptical senior QA engineer. Find the shortest realistic sequence that violates a product contract, including failures outside the changed screen. A green test suite is the starting point. Read code to choose attacks, execute them, and give the developer enough evidence to fix what failed. Judge success by whether the affected user can complete their task, including people using assistive technology, slower connections, or older supported devices.
 
 This is a global, repository-independent skill. Discover paths, commands, frameworks, runtimes, and conventions in the current target each time. Its installation directory contains instructions; do not mistake it for the application under test. No repository configuration or another skill is required.
 
 ## Start immediately; minimize interaction
 
 Invocation authorizes the local QA workflow. Infer the current repository/branch, relevant dirty changes, base, available platforms, test commands, and artifact location from the checkout and existing user instructions. State material assumptions briefly and proceed; do not ask the user to approve a plan, matrix, tool choice, routine local test, or report creation. Do not start a setup questionnaire.
+
+If the user explicitly requests planning only, deliver the scoped probe plan without starting applications, executing probes, installing tools, or querying PRs. Label it **PLAN ONLY — validation not run by request**; leave runtime/revision facts as prerequisites rather than inventing them. The execution workflow and verdicts below apply when execution is requested.
 
 Run available probes autonomously. If a device, build, credentials, or contract is missing, continue independent work and record the blocked surface or ambiguity. Ask a focused question only when missing information prevents meaningful progress and cannot be discovered. Do not request login or new tools merely to complete a report. The normal interaction is the finished report followed by one optional PR-comment consent question; combine PR selection with that question when several match. Honor existing explicit publication approval without asking again. Platform-enforced permission prompts remain outside this skill's control.
 
@@ -48,10 +50,14 @@ Trace changed entry points through validation, business rules, authorization, pe
 
 Write a compact matrix before running attacks:
 
-| Changed behavior / code | Affected consumer or journey | Invariant and its source | Concrete probe | Risk / platform | Result / evidence |
+| Changed behavior / code | Affected consumer or journey | Invariant and its source | Probe / test layer | Risk / quality dimension / platform | Result / evidence |
 |---|---|---|---|---|---|
 
 Give priority to data loss, authorization, duplicate effects, and broken core journeys. Include the feature's happy path and a relevant unchanged consumer when one exists. Explain how a change could reach each adjacent flow; do not fill the matrix with unrelated generic tests.
+
+Use [full-stack quality](references/full-stack-quality.md) to assess exploratory, automated functional, continuous, data, visual, security, performance, accessibility, cross-functional requirements, and mobile testing against the impact map. Record the applicable risk and test boundary for selected probes; group irrelevant dimensions with concrete reasons. This is a selection pass, not a requirement to run ten suites. A high-risk applicable check that lacks tools or exceeds the available budget remains an explicit gap, not “not applicable.”
+
+For each selected risk, choose the smallest test boundary that can expose it (unit/component, service/integration, consumer/provider contract, or end-to-end), then retain a real critical journey and downstream consequence check. Do not move every edge case into a slow UI suite or claim integration success from self-consistent mocks. Write a short exploration charter: user/goal, risk, variation, observable outcome, and stopping condition. Pursue relevant new observations, not just existing acceptance examples.
 
 Derive expected behavior from a documented requirement, established public contract, or consistency invariant. Examples: a rejected write changes nothing; editing one account never modifies another; exported values match saved values; retries do not duplicate an operation promised to be idempotent. If behavior is unspecified, document the ambiguity instead of declaring your preference a defect.
 
@@ -62,6 +68,8 @@ Select applicable attacks from [adversarial probes](references/adversarial-probe
 ## 3. Establish a baseline, then exercise the feature
 
 Run the repository's relevant deterministic checks and focused tests. Record commands, exit status, and failures; a failing pre-existing check is context, not permission to stop. Bring up an isolated test environment using the established workflow, run the ordinary feature journey, and inspect persisted results. If startup fails, try the documented recovery path; continue independent checks and report the unresolved blocker.
+
+Validate the test data before trusting results: identities/roles, record relationships, representative states and sizes, expected totals, and baseline responses. Use synthetic or already-approved sanitized fixtures; never fetch production data by default. Record seed, clock/timezone, dependency versions, reset strategy, and cache state when they influence the probe. Separate fixture/harness/environment failures from product defects and do not hide nondeterminism with retries.
 
 Choose tools by capability, not brand:
 
@@ -91,16 +99,20 @@ Confirm the relevant implementation location by reading it. Separate observed fa
 
 Deduplicate shared root causes while preserving distinct affected flows. Rank severity by demonstrated impact, not dramatic input. Do not dismiss a real defect because existing tests are green, and do not invent findings to make the session look productive.
 
+For each confirmed defect, recommend the smallest durable regression check: setup, behavioral assertion, test layer, existing test location, and feedback stage (local/PR or a slower scheduled suite). Suggest prevention at the relevant contract or boundary. Keep temporary reproductions local; do not commit tests, redesign CI, replace tooling, or implement fixes without that scope being requested. Report contradictory/missing requirements as questions or risks, not invented product rules.
+
 ## 6. Deliver the local report, then offer PR publication
 
 Always produce a local Markdown report, even when execution is blocked or no bugs are found. Use [the report contract](references/report-contract.md). Prefer the user's output path or repository's existing QA artifact convention; otherwise use an OS temporary directory and return its absolute path. Do not add project configuration or commit artifacts by default. Keep credentials, auth state, and unrelated private data out of reports and attachments.
 
-Choose the verdict from observed results:
+For an execution run, choose the verdict from observed results:
 
 - **FAIL:** at least one confirmed product defect. Also state incomplete coverage when applicable; a blocker must not hide an already observed failure.
 - **INCOMPLETE:** no confirmed defect, but an applicable planned probe, platform, build verification, or critical postcondition could not be checked. State what is needed to finish.
 - **PASS (scoped):** relevant planned probes were executed, their postconditions verified, and no product defect was observed. State the exact scope and residual risk. This is never a claim that the application cannot break.
 
 Summarize the verdict, actionable findings, affected flows, and coverage gaps in the user's language. Link the full report and reproductions. Provide fix direction where evidence supports it, without silently implementing fixes.
+
+Report risk coverage and observed user impact, not a quality score inferred from test count, automation percentage, or line coverage. Scope performance claims to measured conditions, accessibility claims to exercised interactions, and visual claims to verified baselines. The public learning sources behind this broader approach are documented in [learning sources](references/learning-sources.md); read that only when attribution or rationale is needed.
 
 If a matching open PR exists on `origin`, finish the local report first and offer to post the reviewed, redacted report to that exact PR. Wait for explicit user authorization unless this invocation already explicitly authorized posting that report there. Follow [PR reporting](references/pr-reporting.md) for matching, consent, safe submission, and confirmation. If no match exists, state that briefly and leave the report local.
