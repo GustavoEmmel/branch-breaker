@@ -11,7 +11,8 @@ For an explicitly plan-only request, deliver the proposed coverage, assertions, 
 3. **Environment:** target type, browser/device/OS and build, account roles/fixture IDs without credentials, startup/test commands, relevant tool versions, real versus mocked dependencies.
 4. **Impact and coverage matrix:** changed behavior → downstream consumer → invariant/source → probe → platform → `passed`, `failed`, `blocked`, `not run`, or `not applicable`, with evidence/reason. Include primary flow, invalid/boundary inputs, relevant unchanged consumers, and platform/state/failure probes. Do not inflate coverage with unexplained counts.
 5. **Confirmed findings:** stable IDs, severity, affected journeys/platforms, exact reproductions, expected/actual results, durable state, and evidence below. Keep unverified risks and ambiguous requirements separate.
-6. **Checks, limitations, cleanup:** check commands/results, blocked dependencies/platforms, unobserved side effects, interrupted/time-limited probes, remaining fixtures/processes, artifact paths, next actions.
+6. **User perspective, when a journey is affected:** intended user/goal, expected benefit, observed task outcome, added effort or risk, and relevant UI states/devices checked. Separate heuristic concerns and product hypotheses from confirmed defects. For each material concern, give the observed evidence, assumption/uncertainty, focused improvement, and how to validate it. State when this was expert inspection rather than user research; no invented personas, usability scores, or conversion claims.
+7. **Checks, limitations, cleanup:** check commands/results, blocked dependencies/platforms, unobserved side effects, interrupted/time-limited probes, remaining fixtures/processes, artifact paths, next actions.
 
 Record the full-stack selection pass: relevant user goals and quality dimensions, chosen test layers, outcomes, and remaining risk. Group genuinely irrelevant dimensions with reasons; keep blocked/deferred applicable probes visible. Include fixture validation and environment/baseline details when needed to interpret the evidence. Accessibility, performance, and visual results must state their measured scope rather than imply conformance, production capacity, or approved appearance from limited checks.
 
@@ -38,7 +39,7 @@ Include explicit coverage rows for query injection, XSS, CSS injection, JavaScri
 - Regression prevention: setup and behavioral assertion, smallest useful test layer, existing test location, and local/PR/scheduled feedback stage; recommendation only unless changes were requested
 ```
 
-Use **P0** for demonstrated critical widespread data loss/security/availability impact; **P1** for a serious broken core flow, unauthorized access, or corruption; **P2** for a substantive edge-case/secondary-flow defect; **P3** for a minor reproducible usability defect. Severity depends on demonstrated context, not the attack's label. Style preferences are not findings.
+Use **P0** for demonstrated critical widespread data loss/security/availability impact; **P1** for a serious broken core flow, unauthorized access, or corruption; **P2** for a substantive edge-case/secondary-flow defect; **P3** for a minor reproducible usability defect. Severity depends on demonstrated context, not the attack's label. UX/UI defects can be serious: an unreachable primary action or false completion message is not automatically P3. Style preferences are not findings; heuristic concerns alone do not change the execution verdict to FAIL. Missing user research alone is a stated limitation, not INCOMPLETE, unless that research was part of the requested scope.
 
 ## Evidence checks before delivery
 

@@ -21,6 +21,8 @@ Name the affected user, their goal, the important failure, and how it would be o
 
 For a business-rule bug, isolate the rule and verify its user-visible consequence. For an API/message change, exercise the producer and a real consumer contract. For a changed screen, retain browser/native interaction even when service probes are faster. Contract tests establish interface compatibility within their scope, not all end-to-end behavior. Prefer test doubles at uncontrollable external boundaries; state what the doubles cannot establish.
 
+For an affected user journey, apply [UX/UI and user perspective](ux-ui-review.md) alongside these dimensions. Functional correctness, visual stability, and accessibility checks do not by themselves establish that the change is understandable, useful, or easy to recover from. Use that guide for the task walkthrough and classification of usability defects versus heuristic concerns.
+
 ## Data and asynchronous consumers
 
 Use fixtures with known expected results: empty and populated states, boundary values, duplicates, old/new records, and related identities. Validate relationships and totals before the probe. After a change, reconcile source records against API, read model/cache, export, and message consumer where relevant. Check types, precision, null/default semantics, uniqueness, and row counts as the contract requires; a matching count alone can hide incorrect values.

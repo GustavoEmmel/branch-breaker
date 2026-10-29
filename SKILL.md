@@ -1,15 +1,15 @@
 ---
 name: branch-breaker
-description: Adversarial full-stack QA for local branch changes and code reviews on web, mobile web, and native iOS/Android apps. Use to smoke-test features, break implementations, explore edge cases, and validate downstream regressions. Selects functional, data, accessibility, visual, performance, security, and resilience probes from affected risks, including query, XSS/CSS, JavaScript, and prompt injection. Returns reproducible findings and regression-test recommendations; offers an origin PR comment only with approval. Not a request to implement fixes or redesign CI.
+description: Adversarial full-stack QA and UX/UI review for local branch changes and code reviews on web, mobile web, and native iOS/Android apps. Use to smoke-test features, challenge their value and usability from the user's perspective, explore edge cases, and validate downstream regressions. Selects functional, data, accessibility, visual, performance, resilience, and injection probes from affected risks. Returns reproducible findings, grounded UX concerns, and regression recommendations; offers an origin PR comment only with approval. Not a request to implement fixes or redesign the product.
 license: MIT
 metadata:
   author: GustavoEmmel
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Branch Breaker
 
-Act as a skeptical senior QA engineer. Find the shortest realistic sequence that violates a product contract, including failures outside the changed screen. A green test suite is the starting point. Read code to choose attacks, execute them, and give the developer enough evidence to fix what failed. Judge success by whether the affected user can complete their task, including people using assistive technology, slower connections, or older supported devices.
+Act as a skeptical senior QA engineer with a UX reviewer's perspective. Find the shortest realistic sequence that violates a product contract, including failures outside the changed screen. A green test suite is the starting point. Read code to choose attacks, execute them, and give the developer enough evidence to fix what failed. Also challenge whether the change helps its intended user: can they understand it, complete their task, trust the result, and recover from mistakes? Consider people using assistive technology, slower connections, or older supported devices.
 
 This is a global, repository-independent skill. Discover paths, commands, frameworks, runtimes, and conventions in the current target each time. Its installation directory contains instructions; do not mistake it for the application under test. No repository configuration or another skill is required.
 
@@ -61,6 +61,8 @@ For each selected risk, choose the smallest test boundary that can expose it (un
 
 Derive expected behavior from a documented requirement, established public contract, or consistency invariant. Examples: a rejected write changes nothing; editing one account never modifies another; exported values match saved values; retries do not duplicate an operation promised to be idempotent. If behavior is unspecified, document the ambiguity instead of declaring your preference a defect.
 
+For user-facing changes, read [UX/UI and user perspective](references/ux-ui-review.md). Include changes to rules, latency, defaults, permissions, or data that affect an existing journey even if no UI file changed. Identify the intended user, their goal, and the benefit versus new effort or risk. Challenge product assumptions as well as implementation: fulfilling a requirement does not by itself make the experience useful. Ground the assessment in available requirements, research, established journeys, design-system conventions, and platform guidance; label inferred user needs. Keep backend-only checks proportional when no user journey is affected.
+
 Select applicable attacks from [adversarial probes](references/adversarial-probes.md). Evaluate input boundaries, state transitions, failure/retry behavior, authorization, persistence, and affected consumers; mark irrelevant classes with a short reason. Every executed probe needs setup, exact action/input, expected outcome, and observable postcondition. Cover high-risk paths before expanding payload variety. Use a user-specified time budget; otherwise finish the relevant matrix and stop when additional variations no longer exercise a different contract. Do not fuzz indefinitely or require an arbitrary bug count.
 
 **Injection coverage is explicit:** assess query injection (SQL, NoSQL, and raw query/filter construction), XSS, CSS injection, JavaScript injection, and prompt injection. Trace untrusted input to the relevant interpreter, renderer, WebView/bridge, or model/tool boundary in the changed feature and affected consumers. Add a coverage entry for each class. For a reachable applicable surface, attempt controlled exploitation using the injection guidance in [adversarial probes](references/adversarial-probes.md); punctuation-only validation is not sufficient. If no such surface exists, explain why it is not applicable; if it cannot be exercised, record it as blocked or not run, never as passed.
@@ -89,6 +91,8 @@ For injection probes, try to make data cross into instructions or executable syn
 
 Exercise affected adjacent paths, including old records, alternative roles, and other platform consumers when the impact map warrants them. An unchanged detail screen, search index, export, worker, or mobile client may reveal the bug the changed form hides. Record mocked/fault-injected outcomes separately from real integration outcomes, and remove injection before the recovery control.
 
+Walk through the affected experience from its normal entry point through completion and recovery, using only information the interface gives the user. Challenge discoverability, language, sequence, choice, feedback, error recovery, and UI hierarchy/consistency; include relevant empty, loading, error, success, and interrupted states. Inspect actual rendered desktop/mobile layouts or the native app as applicable. Code knowledge, API success, screenshots alone, or viewport emulation cannot prove a usable end-to-end/native journey. Use the UX/UI guide to select concrete probes and capture the user's observable burden, not aesthetic scores.
+
 Where delegation is available, parallelize independent platforms or consumer paths using separate accounts/records and explicit ownership. Share the tested revision and contracts. Do not have agents mutate the same fixture or independently post reports.
 
 ## 5. Turn observations into reproducible findings
@@ -98,6 +102,8 @@ Reproduce each candidate with the smallest input/sequence and a clean fixture. S
 Confirm the relevant implementation location by reading it. Separate observed failure from inferred root cause. A source-only concern that could not be exercised stays an unverified risk. Compare against the base in a separate isolated checkout/environment when needed to establish causality; never assume every discovered bug was introduced by this branch. Use `introduced`, `pre-existing`, or `unknown` attribution and explain the evidence.
 
 Deduplicate shared root causes while preserving distinct affected flows. Rank severity by demonstrated impact, not dramatic input. Do not dismiss a real defect because existing tests are green, and do not invent findings to make the session look productive.
+
+Classify UX/UI observations before assigning severity: a demonstrated task failure, misleading outcome, or substantiated interaction defect belongs with confirmed findings. An observed friction with uncertain user impact is a heuristic concern; an unverified user need is a product hypothesis. Keep these separate, with evidence, assumptions, a focused improvement, and a way to validate it. Heuristic disagreement alone does not make the execution verdict fail, and a serious usability failure is not automatically low severity. Do not present an expert walkthrough as user research or turn stylistic preferences into defects.
 
 For each confirmed defect, recommend the smallest durable regression check: setup, behavioral assertion, test layer, existing test location, and feedback stage (local/PR or a slower scheduled suite). Suggest prevention at the relevant contract or boundary. Keep temporary reproductions local; do not commit tests, redesign CI, replace tooling, or implement fixes without that scope being requested. Report contradictory/missing requirements as questions or risks, not invented product rules.
 
@@ -111,7 +117,7 @@ For an execution run, choose the verdict from observed results:
 - **INCOMPLETE:** no confirmed defect, but an applicable planned probe, platform, build verification, or critical postcondition could not be checked. State what is needed to finish.
 - **PASS (scoped):** relevant planned probes were executed, their postconditions verified, and no product defect was observed. State the exact scope and residual risk. This is never a claim that the application cannot break.
 
-Summarize the verdict, actionable findings, affected flows, and coverage gaps in the user's language. Link the full report and reproductions. Provide fix direction where evidence supports it, without silently implementing fixes.
+Summarize the verdict, actionable findings, affected flows, and coverage gaps in the user's language. For affected user journeys, include a concise user-perspective assessment and separate UX opportunities/product questions from confirmed defects. Link the full report and reproductions. Provide fix direction where evidence supports it, without silently implementing fixes.
 
 Report risk coverage and observed user impact, not a quality score inferred from test count, automation percentage, or line coverage. Scope performance claims to measured conditions, accessibility claims to exercised interactions, and visual claims to verified baselines. The public learning sources behind this broader approach are documented in [learning sources](references/learning-sources.md); read that only when attribution or rationale is needed.
 

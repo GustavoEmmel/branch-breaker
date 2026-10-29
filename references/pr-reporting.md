@@ -14,7 +14,7 @@ For GitHub, `gh pr list --repo <origin-owner/repo> --head <current-branch> --sta
 
 ## Prepare first, ask second
 
-Finish and show the local report. Prepare the exact self-contained sanitized Markdown comment before asking, fitting the host's comment size limit. Include verdict, revision/dirty-state note, actionable findings/reproductions, coverage gaps, and fix direction; condense lengthy logs while retaining the full report locally. Local file links are unusable by other PR readers: include needed text inline. Do not upload private traces/screenshots/logs/fixtures without approval to share those artifacts.
+Finish and show the local report. Prepare the exact self-contained sanitized Markdown comment before asking, fitting the host's comment size limit. Include verdict, revision/dirty-state note, actionable findings/reproductions, coverage gaps, and fix direction; condense lengthy logs while retaining the full report locally. Retain material user-perspective conclusions when relevant, with heuristic concerns and product questions visibly separate from confirmed defects. Local file links are unusable by other PR readers: include needed text inline. Do not upload private traces/screenshots/logs/fixtures without approval to share those artifacts.
 
 Offer a concrete choice with the exact PR link:
 

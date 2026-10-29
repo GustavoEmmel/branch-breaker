@@ -1,6 +1,14 @@
 # Authoring validation
 
-Initial authoring validation: 2026-10-24. Latest instruction update: 2026-10-27.
+Initial authoring validation: 2026-10-24. Latest instruction update: 2026-10-29.
+
+## Version 1.4 UX/UI and user-perspective update
+
+Added a branch-scoped walkthrough of user value, task effort, language, navigation, feedback, recovery, hierarchy, and platform-appropriate interaction. Confirmed usability defects remain impact-ranked findings; heuristic concerns and product hypotheses are reported separately without invented user research, aesthetic scores, or automatic failure for justified tradeoffs. Local and optional PR reports retain this distinction. Public primary guidance and access limits are recorded in the source map.
+
+Independent instruction review found no actionable conflicts with evidence requirements, global/web/mobile scope, minimal interaction, or PR-comment consent. All 17 installer regression tests pass, including rejecting a checkout missing the new UX/UI reference. Skill format, UI metadata, local Markdown links, and whitespace checks passed. Re-ran the global installer and verified that shared, Codex, Cursor, and Claude paths expose the same updated guide without replacing working links.
+
+A fresh-context agent applied the skill to a disposable web draft editor with a base revision, a changed save handler, documented user contracts, and three passing server-rule tests. Using the real in-app browser, it reproduced rejected saves that claimed success and erased entered work on desktop and a mobile-web layout with 375 CSS pixels of content width. Independent API reads confirmed that the rejected draft was absent; the base revision displayed the error and preserved input. Valid saves/reloads, keyboard navigation, and a stored-input canary provided additional controls. Screenshots and reproductions were retained locally. This checks one small synthetic workflow, not general defect-detection effectiveness or mobile-device coverage.
 
 ## Version 1.3 full-stack quality update
 
@@ -51,6 +59,6 @@ The evaluator encountered the expected defect list during agent discovery. This 
 
 Review tightened source fingerprinting for already-dirty files and PR matching for verified fork checkouts. Web and mobile guidance was checked against primary Playwright, Maestro, Appium, and Detox documentation linked in the execution references.
 
-No real browser/native-device session or GitHub comment submission was executed during this authoring validation. Those instructions are reviewed guidance, not demonstrated cross-platform coverage. No report was posted to a live PR. Future evaluations should exercise real browser/native flows, unavailable-device handling, origin/fork matching, and approval/retry behavior with disposable resources.
+The initial authoring evaluation did not execute a real browser/native-device session or GitHub comment submission. Version 1.4 adds the small browser exercise described above; native-device behavior, actual user research, and live PR-comment submission remain untested in this authoring work. No report was posted to a live PR. Future evaluations should exercise native flows, unavailable-device handling, origin/fork matching, and approval/retry behavior with disposable resources.
 
 Skill format checks do not prove agent behavior. The forward evaluation establishes that this run produced executable probes and useful findings beyond the existing suite; it does not guarantee the same outcome in every codebase.

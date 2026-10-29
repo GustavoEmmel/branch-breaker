@@ -24,3 +24,18 @@ The [author's publications page](https://gayathri-mohan.com/publications/) and p
 - [Grafana k6 thresholds](https://grafana.com/docs/k6/latest/using-k6/thresholds/): explicit metric criteria for performance checks. Documentation examples are not universal product budgets; no requirement to install k6.
 
 Specific probe recipes, verdict integration, local-only defaults, evidence fields, and regression-placement recommendations are Branch Breaker's own engineering adaptations. Public source availability is not evidence that a target application passed a test. Reuse current project tools and consult their version-appropriate documentation when execution requires it. No book text, diagrams, or companion implementation is bundled.
+
+## UX/UI extension sources
+
+Consulted 2026-10-29 for the separate user-perspective extension; these are not attributed to Mohan's book. The task walkthrough, evidence classes, and report integration are original Branch Breaker adaptations.
+
+| Primary source | Material consulted and application |
+|---|---|
+| [NN/g: Ten Usability Heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/) | Public article; questions about state visibility, familiar language, user control, consistency, recognition, and recovery |
+| [NN/g: How to Conduct a Heuristic Evaluation](https://www.nngroup.com/articles/how-to-conduct-a-heuristic-evaluation/) | Public article; contextual evaluation and justified tradeoffs, with expert inspection distinguished from research with users |
+| [W3C: Making Content Usable for People with Cognitive and Learning Disabilities](https://www.w3.org/TR/coga-usable/) | Introduction and relevant pattern/objective index of the public Working Group Note; clear purpose/controls, reduced memory burden, understandable language, and retained work. Supplemental guidance, not mandatory WCAG conformance criteria; not every pattern was reviewed |
+| [Apple HIG: Feedback](https://developer.apple.com/design/human-interface-guidelines/feedback) | Public Markdown body linked by the page; contextual status and interruption, with accessible and actionable feedback |
+| [Apple HIG: Layout](https://developer.apple.com/design/human-interface-guidelines/layout) | Relevant hierarchy, adaptation, and safe-area sections of the linked public Markdown body; legibility, grouping, and reachable controls, without prescribing Apple styling for other products |
+| [Android: Principles of Navigation](https://developer.android.com/guide/navigation/principles) | Public page; predictable navigation, distinguishing Back/Up and respecting deep-link context where applicable |
+
+These sources inform questions and evidence collection, not a claim of universal best design or knowledge of a particular product's users. Current platform criteria should be checked when an actual finding depends on them. No source diagrams, templates, or implementation code are bundled.
