@@ -4,7 +4,7 @@ description: Adversarial full-stack QA and UX/UI review for local branch changes
 license: MIT
 metadata:
   author: GustavoEmmel
-  version: "1.4.0"
+  version: "1.5.0"
 ---
 
 # Branch Breaker
@@ -65,6 +65,8 @@ For user-facing changes, read [UX/UI and user perspective](references/ux-ui-revi
 
 Select applicable attacks from [adversarial probes](references/adversarial-probes.md). Evaluate input boundaries, state transitions, failure/retry behavior, authorization, persistence, and affected consumers; mark irrelevant classes with a short reason. Every executed probe needs setup, exact action/input, expected outcome, and observable postcondition. Cover high-risk paths before expanding payload variety. Use a user-specified time budget; otherwise finish the relevant matrix and stop when additional variations no longer exercise a different contract. Do not fuzz indefinitely or require an arbitrary bug count.
 
+**Search/filter completeness is a priority check:** whenever the change affects a searchable/filterable collection, its data source, pagination, or a shared consumer, explicitly test a matching authorized record that exists beyond all currently loaded/prefetched results. Follow [search and filters beyond the loaded page](references/adversarial-probes.md#search-and-filters-beyond-the-loaded-page). Prove that collection-wide search/filtering reaches the backing dataset, rather than just filtering frontend rows or filtering an already-paginated backend subset. Record coverage for each affected control. **Report a confirmed omission caused by searching/filtering only the current page or loaded subset as P1**, with FAIL verdict and evidence of the missing eligible record. A small one-page fixture or an on-page match cannot establish this coverage; missing fixtures/runtime access remains a gap. Respect explicitly page-local controls and demonstrably complete local datasets rather than requiring a new network request for every input.
+
 **Injection coverage is explicit:** assess query injection (SQL, NoSQL, and raw query/filter construction), XSS, CSS injection, JavaScript injection, and prompt injection. Trace untrusted input to the relevant interpreter, renderer, WebView/bridge, or model/tool boundary in the changed feature and affected consumers. Add a coverage entry for each class. For a reachable applicable surface, attempt controlled exploitation using the injection guidance in [adversarial probes](references/adversarial-probes.md); punctuation-only validation is not sufficient. If no such surface exists, explain why it is not applicable; if it cannot be exercised, record it as blocked or not run, never as passed.
 
 ## 3. Establish a baseline, then exercise the feature
@@ -101,7 +103,7 @@ Reproduce each candidate with the smallest input/sequence and a clean fixture. S
 
 Confirm the relevant implementation location by reading it. Separate observed failure from inferred root cause. A source-only concern that could not be exercised stays an unverified risk. Compare against the base in a separate isolated checkout/environment when needed to establish causality; never assume every discovered bug was introduced by this branch. Use `introduced`, `pre-existing`, or `unknown` attribution and explain the evidence.
 
-Deduplicate shared root causes while preserving distinct affected flows. Rank severity by demonstrated impact, not dramatic input. Do not dismiss a real defect because existing tests are green, and do not invent findings to make the session look productive.
+Deduplicate shared root causes while preserving distinct affected flows. Rank severity by demonstrated impact, not dramatic input; apply the explicit P1 rule above for confirmed search/filter incompleteness across pages. Do not dismiss a real defect because existing tests are green, and do not invent findings to make the session look productive.
 
 Classify UX/UI observations before assigning severity: a demonstrated task failure, misleading outcome, or substantiated interaction defect belongs with confirmed findings. An observed friction with uncertain user impact is a heuristic concern; an unverified user need is a product hypothesis. Keep these separate, with evidence, assumptions, a focused improvement, and a way to validate it. Heuristic disagreement alone does not make the execution verdict fail, and a serious usability failure is not automatically low severity. Do not present an expert walkthrough as user research or turn stylistic preferences into defects.
 

@@ -9,7 +9,7 @@ Works with **web, mobile web, native Android, native iOS, hybrid apps, and suppo
 1. Resolves the branch/base and relevant uncommitted changes, then identifies the build actually being tested.
 2. Maps changed code to callers, shared components, schemas, storage, queues, caches, and downstream consumers.
 3. Runs existing checks and the normal feature journey, then probes invalid input, Unicode, boundary values, state transitions, authorization, races, failures, and recovery. Explicitly attempts **query injection, XSS, CSS injection, JavaScript injection, and prompt injection** on applicable surfaces, using controlled local exploit proofs and checking downstream/stored paths.
-4. Checks final state and adjacent flows: a rejected save must not mutate data; a saved label must still work in search/export; offline retries must respect the application's duplicate-handling contract.
+4. Checks final state and adjacent flows: a rejected save must not mutate data; a saved label must still work in search/export; offline retries must respect the application's duplicate-handling contract. Explicitly tests search/filter matches beyond loaded pages and reports confirmed collection-wide searches limited to the current subset as **P1**.
 5. Walks affected journeys from the user's normal entry point, challenging usefulness, clarity, navigation, effort, feedback, recovery, visual hierarchy, and consistency across relevant web/mobile states.
 6. Produces a local report with severity, exact reproductions, expected/actual behavior, affected flows, evidence, fix direction, and the smallest useful regression test to prevent recurrence. Separates confirmed defects from grounded UX concerns and product questions.
 7. Finds a related open PR on `origin`, when available, and **asks before posting the report as a comment**.
@@ -29,6 +29,12 @@ Public materials for Gayathri Mohan's *Full Stack Testing* informed the expanded
 - Recommend a focused regression assertion and feedback stage for every confirmed defect.
 
 This does not force ten test suites, install the book's tool catalogue, change CI, or add a setup questionnaire. The [quality guide](references/full-stack-quality.md) contains the operational checks; the [source map](references/learning-sources.md) separates verified public material from our own adaptations and records access limits.
+
+### Search and filters must find off-page records
+
+Branch Breaker explicitly tests affected search/filter controls with an authorized matching record outside the current page and all prefetched results. It follows the UI input through the API and backing data source, checks filtering before pagination, and challenges stale cursors, cache state, combined filters, and subsequent result pages. Finding a match already on screen is insufficient.
+
+A search intended for the full collection that only filters frontend results—or a backend's already-paginated subset—is a **P1 defect**. The report includes the missing eligible record, loaded window, query/filter, and UI/backend evidence. Intentionally page-local filters and verified complete local datasets are distinguished from this failure. See the [probe procedure](references/adversarial-probes.md#search-and-filters-beyond-the-loaded-page).
 
 ### UX/UI and the user's perspective
 

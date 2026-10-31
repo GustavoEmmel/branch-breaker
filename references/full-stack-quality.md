@@ -29,6 +29,8 @@ Use fixtures with known expected results: empty and populated states, boundary v
 
 For migrations, use a disposable database and supported old/new schema paths. Verify preserved values and compatible readers; test rollback only when supported. For async flows, correlate a unique operation/record ID, wait with a bounded deadline, and check duplicates, out-of-order delivery, retries, or partial failure where relevant. Distinguish legitimate eventual consistency from a missed update. Do not use arbitrary sleeps or assume exactly-once semantics without a contract. Record deterministic seed/time/cache conditions and clean up owned fixtures.
 
+Search/filter correctness requires records beyond the loaded page. For affected collections, run the [off-page completeness probe](adversarial-probes.md#search-and-filters-beyond-the-loaded-page); an on-page hit or a correct response from a single endpoint cannot establish end-to-end search coverage. Apply the explicit P1 rule when a collection-wide control omits eligible records by operating only on a loaded/paginated subset.
+
 ## Accessibility and visual usability
 
 Use the affected journey with keyboard navigation: focus order/visibility, activation, dialog entry/exit, and form-error recovery. Inspect accessible names/roles and dynamic feedback; use an available screen reader for claims about actual announcements. Exercise zoom/text scaling and relevant long/localized content. Combine automated auditing with interaction; automated success alone cannot establish accessibility or WCAG conformance. State the criteria/tool/device actually checked. Native equivalents belong in the native harness.

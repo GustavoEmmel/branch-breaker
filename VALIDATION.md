@@ -1,6 +1,14 @@
 # Authoring validation
 
-Initial authoring validation: 2026-10-24. Latest instruction update: 2026-10-29.
+Initial authoring validation: 2026-10-24. Latest instruction update: 2026-10-30.
+
+## Version 1.5 search/filter completeness update
+
+Added explicit off-page search/filter coverage and a named P1 severity rule for confirmed collection-wide controls that operate only on loaded/paginated subsets. The procedure verifies eligible records outside the actual prefetch/cache window, traces UI/API/provider behavior, challenges pagination state, and distinguishes intentional local scope from hidden implementation limits.
+
+Independent review tightened ranking/cap semantics, page-warming diagnostic controls, and severity consistency. A fresh-context agent applied the final instructions to seven synthetic evidence cases: frontend subset-only search and backend filtering after pagination were classified P1; unauthorized records, complete local datasets, and explicitly page-local controls were not falsely flagged; source-only suspicion stayed unverified; insufficient off-page fixtures remained a coverage gap. Its plan for 150 records accounted for page size, prefetch ambiguity, text/status/combined controls, cursor resets, and independent result evidence. This was a plan-only instruction evaluation, not execution against a search application.
+
+Skill-format, local reference/anchor, and whitespace checks passed. The unchanged installer was run successfully; shared, Codex, Cursor, and Claude paths retain the updated skill. No target product code or installer behavior changed, and no live search campaign or PR comment was performed for this update.
 
 ## Version 1.4 UX/UI and user-perspective update
 
