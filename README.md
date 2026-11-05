@@ -11,7 +11,7 @@ Works with **web, mobile web, native Android, native iOS, hybrid apps, and suppo
 3. Runs existing checks and the normal feature journey, then probes invalid input, Unicode, boundary values, state transitions, authorization, races, failures, and recovery. Explicitly attempts **query injection, XSS, CSS injection, JavaScript injection, and prompt injection** on applicable surfaces, using controlled local exploit proofs and checking downstream/stored paths.
 4. Checks final state and adjacent flows: a rejected save must not mutate data; a saved label must still work in search/export; offline retries must respect the application's duplicate-handling contract. Explicitly tests search/filter matches beyond loaded pages and reports confirmed collection-wide searches limited to the current subset as **P1**.
 5. Walks affected journeys from the user's normal entry point, challenging usefulness, clarity, navigation, effort, feedback, recovery, visual hierarchy, and consistency across relevant web/mobile states.
-6. Produces a local report with severity, exact reproductions, expected/actual behavior, affected flows, evidence, fix direction, and the smallest useful regression test to prevent recurrence. Separates confirmed defects from grounded UX concerns and product questions.
+6. Saves a run bundle under the target project's `.tmp/branch-breaker/`, including what worked, what failed, screenshots, reproducible findings, and Slack/Jira sharing drafts. Includes severity, affected flows, evidence, fix direction, and regression recommendations. Separates confirmed defects from grounded UX concerns and product questions.
 7. Finds a related open PR on `origin`, when available, and **asks before posting the report as a comment**.
 
 It executes within disposable test environments and preserves product code. It does not silently implement fixes or weaken tests. Missing tools/devices produce explicit coverage gaps. `PASS (scoped)` means the described checks passed, not that the app is bug-free.
@@ -132,7 +132,26 @@ Native execution requires a compatible build and available simulator/emulator/te
 
 Reports contain a tested revision/build, impact/coverage matrix, findings with exact reproductions and evidence, existing check results, and remaining gaps. Affected user journeys also receive a user-perspective assessment with separate UX opportunities and open product questions. Verdicts are `FAIL`, `INCOMPLETE`, and `PASS (scoped)`. Confirmed usability defects affect the verdict like other defects; heuristic concerns alone do not. Confirmed defects remain failures even if another part of the run is blocked.
 
-Reports stay local by default, using the requested location, the project's artifact convention, or an OS temporary directory. The agent returns the absolute path. A matching PR must be verified against origin and its head identity; unpublished local changes are disclosed. Posting requires explicit approval for the identified PR, uses a comment rather than a formal review, and returns the comment URL. No PR or GitHub access is needed for local QA.
+Each execution run creates a unique folder under **the application project's `.tmp/branch-breaker/`**, preserving earlier runs. An explicit output path overrides the default. The agent returns clickable paths to the files it created:
+
+```text
+.tmp/branch-breaker/<unique-run-id>/
+  report.md
+  evidence/
+  share/
+    summary.md
+    slack.txt
+    jira.txt
+    evidence-index.md
+    screenshots/
+  share.zip
+```
+
+The full report and portable summary describe **what worked**, **what failed**, and **what remains uncertain**. Real screenshots show representative successful UI states and material failures, with captions and build/device context. API-only or blocked runs explain why screenshots are absent; no screenshots are fabricated. Explicitly plan-only requests save a labeled `plan.md` without execution claims.
+
+`slack.txt` and `jira.txt` are plain-text drafts ready to copy, with attachment filenames instead of unusable local links. `share.zip`, when archive tooling is available, contains only reviewed sharing files and selected screenshots; extract it to read `summary.md` with relative image links. Logs and raw traces are not automatically included. Files stay local, and no project ignore rules are changed or artifacts committed by default. If `.tmp` cannot be written safely, the agent reports its alternative location and the limitation. See [run artifacts](references/run-artifacts.md) for the complete contract.
+
+Creating these files does **not** send Slack messages, create Jira tickets/comments, or upload attachments. Publication happens only when explicitly requested for an identified destination. A matching PR must be verified against origin and its head identity; unpublished local changes are disclosed. PR posting requires explicit approval, uses a comment rather than a formal review, and returns the comment URL. No Slack/Jira/GitHub connection is needed to prepare the local bundle.
 
 ## Contents
 
@@ -143,6 +162,7 @@ Reports stay local by default, using the requested location, the project's artif
 - [Learning sources](references/learning-sources.md): public book/author sources, supporting documentation, and attribution
 - [Web execution](references/web-execution.md) and [mobile execution](references/mobile-execution.md): runtime-specific guidance
 - [Report contract](references/report-contract.md): actionable findings and evidence requirements
+- [Run artifacts](references/run-artifacts.md): `.tmp` bundles, screenshots, observed successes/failures, and Slack/Jira drafts
 - [PR reporting](references/pr-reporting.md): origin matching and consent before publication
 - [Validation](VALIDATION.md): checks performed and their limits
 - [Installer](install.py): noninteractive global installation for all three agents

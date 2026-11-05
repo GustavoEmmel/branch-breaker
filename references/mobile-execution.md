@@ -28,7 +28,7 @@ Without usable device/build/driver/credentials, continue code/shared-contract/AP
 
 Do not clear app data between saving and verifying persistence. Do not replace background/resume with a cold relaunch. Use unique fixtures and disposable devices for reset/permission experiments. Avoid device-wide cleanup such as clearing a personal device's keychain. Verify actions the harness actually performed and note platform differences.
 
-Record OS/device or simulator/emulator, app identifier, build/revision, backend target, harness/driver version, reset strategy, and screenshots/video/log excerpts. Pair backend durable reads with native UI observations. Explain physical-device behaviors the simulator cannot establish.
+Record OS/device or simulator/emulator, app identifier, build/revision, backend target, harness/driver version, reset strategy, and screenshots/video/log excerpts. Save actual captures of representative successful states and material UI failures in the current run folder, with captions/provenance and unavailable captures recorded as described in [run artifacts](run-artifacts.md). Pair backend durable reads with native UI observations. Explain physical-device behaviors the simulator cannot establish.
 
 ## Official references and version-sensitive caveats
 

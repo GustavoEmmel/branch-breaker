@@ -1,10 +1,10 @@
 ---
 name: branch-breaker
-description: Adversarial full-stack QA and UX/UI review for local branch changes and code reviews on web, mobile web, and native iOS/Android apps. Use to smoke-test features, challenge their value and usability from the user's perspective, explore edge cases, and validate downstream regressions. Selects functional, data, accessibility, visual, performance, resilience, and injection probes from affected risks. Returns reproducible findings, grounded UX concerns, and regression recommendations; offers an origin PR comment only with approval. Not a request to implement fixes or redesign the product.
+description: Adversarial full-stack QA and UX/UI review for local branch changes and code reviews on web, mobile web, and native iOS/Android apps. Use to smoke-test features, challenge their value and usability, explore edge cases, and validate downstream regressions. Selects functional, data, accessibility, visual, performance, resilience, and injection probes from affected risks. Saves run reports, successes, failures, screenshots, and Slack/Jira sharing drafts under .tmp. Returns reproducible findings and regression recommendations; offers an origin PR comment only with approval. Not a request to implement fixes or redesign the product.
 license: MIT
 metadata:
   author: GustavoEmmel
-  version: "1.5.0"
+  version: "1.6.0"
 ---
 
 # Branch Breaker
@@ -41,6 +41,8 @@ Record:
 - Available platforms: desktop web, mobile web, Android, iOS, hybrid, and non-UI services. Record browser/device/OS, build, test account roles, backend fixture, and any environment limits.
 
 Read the merge-base-to-HEAD diff, the staged/unstaged diffs relevant to the request, and changed contracts. Trace relationships with targeted searches rather than ingesting the entire repository. Record content fingerprints for relevant non-secret source files, including dirty/untracked sources; HEAD and status alone cannot detect edits to an already-dirty file. Compare fingerprints and revision/status again at the end. Disclose concurrent changes and rerun affected probes or mark their coverage incomplete if the tested sources/build changed.
+
+After recording initial source state, initialize a unique run folder under the target project's `.tmp/branch-breaker/` using [run artifacts](references/run-artifacts.md). Save evidence as the run proceeds, including representative successful UI states and material UI failures. Exclude only this run's owned generated paths from implementation-change checks; do not hide pre-existing `.tmp` files or unrelated changes. For explicitly plan-only work, save a labeled plan without execution claims or screenshots unless the user requested no files.
 
 Discover a related open PR on `origin` read-only when tooling/authentication is available; follow [PR reporting](references/pr-reporting.md). A missing PR or GitHub connection never blocks local QA.
 
@@ -109,9 +111,9 @@ Classify UX/UI observations before assigning severity: a demonstrated task failu
 
 For each confirmed defect, recommend the smallest durable regression check: setup, behavioral assertion, test layer, existing test location, and feedback stage (local/PR or a slower scheduled suite). Suggest prevention at the relevant contract or boundary. Keep temporary reproductions local; do not commit tests, redesign CI, replace tooling, or implement fixes without that scope being requested. Report contradictory/missing requirements as questions or risks, not invented product rules.
 
-## 6. Deliver the local report, then offer PR publication
+## 6. Deliver run artifacts, then offer PR publication
 
-Always produce a local Markdown report, even when execution is blocked or no bugs are found. Use [the report contract](references/report-contract.md). Prefer the user's output path or repository's existing QA artifact convention; otherwise use an OS temporary directory and return its absolute path. Do not add project configuration or commit artifacts by default. Keep credentials, auth state, and unrelated private data out of reports and attachments.
+For execution runs, always produce a local Markdown report, even when execution is blocked or no bugs are found. Use [the report contract](references/report-contract.md) and [run artifacts](references/run-artifacts.md). Default to `<target-project>/.tmp/branch-breaker/<unique-run-id>/`; an explicit user output path overrides that default. Include what worked, what failed, coverage gaps, real screenshots where available, and local Slack/Jira sharing drafts. Finalize a portable sharing folder and, when archive tooling is available, a reviewed `share.zip`. Plan-only requests use the labeled plan exception above. Do not add project configuration or commit artifacts by default. Keep credentials, auth state, and unrelated private data out of reports and attachments.
 
 For an execution run, choose the verdict from observed results:
 
@@ -119,7 +121,7 @@ For an execution run, choose the verdict from observed results:
 - **INCOMPLETE:** no confirmed defect, but an applicable planned probe, platform, build verification, or critical postcondition could not be checked. State what is needed to finish.
 - **PASS (scoped):** relevant planned probes were executed, their postconditions verified, and no product defect was observed. State the exact scope and residual risk. This is never a claim that the application cannot break.
 
-Summarize the verdict, actionable findings, affected flows, and coverage gaps in the user's language. For affected user journeys, include a concise user-perspective assessment and separate UX opportunities/product questions from confirmed defects. Link the full report and reproductions. Provide fix direction where evidence supports it, without silently implementing fixes.
+Summarize the verdict, observed successes, actionable findings, affected flows, and coverage gaps in the user's language. For affected user journeys, include a concise user-perspective assessment and separate UX opportunities/product questions from confirmed defects. Return absolute links to the full report, sharing summary/drafts, available screenshots, and archive. State unavailable evidence or artifact-generation failures accurately. Provide fix direction where evidence supports it, without silently implementing fixes. Creating sharing drafts does not authorize Slack/Jira posting, ticket creation, or attachment uploads; use the publication rules in the artifact guide if the user later requests them.
 
 Report risk coverage and observed user impact, not a quality score inferred from test count, automation percentage, or line coverage. Scope performance claims to measured conditions, accessibility claims to exercised interactions, and visual claims to verified baselines. The public learning sources behind this broader approach are documented in [learning sources](references/learning-sources.md); read that only when attribution or rationale is needed.
 

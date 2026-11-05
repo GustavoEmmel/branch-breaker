@@ -1,4 +1,4 @@
 interface:
   display_name: "Branch Breaker"
   short_description: "Adversarial QA and UX/UI review of branch changes"
-  default_prompt: "Use $branch-breaker to validate this branch, challenge its UX/UI from the user's perspective, and run relevant full-stack probes; return reproducible findings, grounded UX concerns, and regression recommendations before offering an origin PR comment."
+  default_prompt: "Use $branch-breaker to validate this branch and challenge its UX/UI; save what worked, what failed, screenshots, findings, and Slack/Jira sharing drafts under .tmp before offering an origin PR comment."

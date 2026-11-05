@@ -23,7 +23,7 @@ Use responsive viewport/touch/device profiles for mobile-web coverage. Where pla
 
 ## Evidence
 
-Save a runnable test or exact interaction sequence and relevant logs/response/state. Use screenshots for visual failures and traces when available. Playwright Test tracing includes test context; standalone `context.tracing` does not record assertion calls. Review artifacts for auth tokens, cookies, personal data, and private URLs before sharing.
+Save a runnable test or exact interaction sequence and relevant logs/response/state in the current run's artifact directory. Capture representative successful UI states and material UI/visual failures, with check/finding IDs, captions, build, and viewport details, following [run artifacts](run-artifacts.md). Pair images with execution/state evidence; record missing captures explicitly. Use traces when available. Playwright Test tracing includes test context; standalone `context.tracing` does not record assertion calls. Review artifacts for auth tokens, cookies, personal data, and private URLs before sharing; raw traces do not belong in the sharing bundle by default.
 
 Do not let a test healer reinterpret a product failure as the expected result. Repair demonstrably wrong selectors/fixtures, then rerun; preserve failures revealing broken contracts. Report flaky first failures and relevant retry results.
 

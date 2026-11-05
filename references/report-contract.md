@@ -1,8 +1,8 @@
 # Local findings report
 
-Write `report.md` and place sanitized evidence/reproductions beside it. Use the user's language; preserve code, payloads, and command output exactly. No issue tracker or PR is required.
+For execution runs, write `report.md` in the resolved run directory with sanitized evidence, screenshots, and sharing drafts as specified in [run artifacts](run-artifacts.md). The default is the target project's `.tmp/branch-breaker/<run-id>/`; honor explicit output overrides and disclose any fallback. Use the user's language; preserve code, payloads, and command output exactly except explicitly marked redactions. No issue tracker or PR is required.
 
-For an explicitly plan-only request, deliver the proposed coverage, assertions, prerequisites, and limits as **PLAN ONLY — validation not run by request**. Do not assign an execution pass/fail verdict, fabricate build identity/evidence, or call unexecuted-by-request probes blocked. Reserve blocked status for genuinely unavailable prerequisites.
+For an explicitly plan-only request, deliver `plan.md` (or chat only when the user requests no files) with proposed coverage, assertions, prerequisites, and limits as **PLAN ONLY — validation not run by request**. Do not assign an execution pass/fail verdict, fabricate build identity/evidence, or call unexecuted-by-request probes blocked. Reserve blocked status for genuinely unavailable prerequisites. The execution report/bundle requirements below do not apply to plan-only requests.
 
 ## Report contents
 
@@ -13,6 +13,8 @@ For an explicitly plan-only request, deliver the proposed coverage, assertions, 
 5. **Confirmed findings:** stable IDs, severity, affected journeys/platforms, exact reproductions, expected/actual results, durable state, and evidence below. Keep unverified risks and ambiguous requirements separate.
 6. **User perspective, when a journey is affected:** intended user/goal, expected benefit, observed task outcome, added effort or risk, and relevant UI states/devices checked. Separate heuristic concerns and product hypotheses from confirmed defects. For each material concern, give the observed evidence, assumption/uncertainty, focused improvement, and how to validate it. State when this was expert inspection rather than user research; no invented personas, usability scores, or conversion claims.
 7. **Checks, limitations, cleanup:** check commands/results, blocked dependencies/platforms, unobserved side effects, interrupted/time-limited probes, remaining fixtures/processes, artifact paths, next actions.
+
+Include clearly labeled **What worked** and **What failed** sections. What worked contains verified behavior, checked contract, platform/state, and evidence links; it is not generic praise or a claim that everything passed. What failed presents confirmed findings and user impact, while risks, UX suggestions, and unavailable tests remain distinct. Link representative successful screenshots and relevant failure screenshots with captions; state when capture was unavailable or no UI was involved. The sharing summary/drafts must retain the same verdict, finding IDs/severities, tested scope, and material gaps as the full report.
 
 Record the full-stack selection pass: relevant user goals and quality dimensions, chosen test layers, outcomes, and remaining risk. Group genuinely irrelevant dimensions with reasons; keep blocked/deferred applicable probes visible. Include fixture validation and environment/baseline details when needed to interpret the evidence. Accessibility, performance, and visual results must state their measured scope rather than imply conformance, production capacity, or approved appearance from limited checks.
 
@@ -51,5 +53,6 @@ Use **P0** for demonstrated critical widespread data loss/security/availability 
 - No auth state, tokens, cookies, passwords, personal data, or unrelated private logs. Review screenshots/traces too. Redact secrets while preserving the failing input's shape.
 - `PASS (scoped)` has actual execution and no unexplained applicable probe blocked/not run. `FAIL` retains gaps. Blocked before execution means `INCOMPLETE`, with setup evidence and next step.
 - No-findings reports say what ran and remains uncertain, never “bug-free.”
+- Report/evidence links resolve; screenshot provenance and omissions are recorded. The sharing folder/archive contains only reviewed assets, and the Slack/Jira drafts do not rely on local links or imply publication.
 
-The final chat answer exposes useful findings and links the full local report. Offer PR publication only if a matching PR exists.
+The final chat answer exposes useful findings and observed successes, and links the full report plus sharing artifacts that were created. Offer PR publication only if a matching PR exists. Drafting Slack/Jira content does not authorize posting it.

@@ -1,6 +1,14 @@
 # Authoring validation
 
-Initial authoring validation: 2026-10-24. Latest instruction update: 2026-10-30.
+Initial authoring validation: 2026-10-24. Latest instruction update: 2026-11-05.
+
+## Version 1.6 run artifacts and sharing update
+
+Added unique target-project `.tmp/branch-breaker/` run folders, reports of observed successes and failures, real screenshot capture/provenance, portable sharing summaries, Slack/Jira text drafts, and an allowlisted sharing ZIP. Explicit output overrides, unavailable screenshots, blocked runs, and plan-only requests retain honest limits. Creating artifacts does not authorize external publication.
+
+Independent review resolved ambiguities around execution-only report initialization and requested-location fallbacks. All 17 installer regression tests pass, including rejection of a checkout missing the new artifact guide. Skill-format, local reference, and whitespace checks passed; the global installer preserved working shared/Codex/Cursor/Claude links while exposing the new reference.
+
+A fresh-context agent generated an actual bundle in a disposable project's `.tmp` using clearly labeled synthetic observations. Its report, good/bad/gaps summary, Slack/Jira drafts, evidence inventory, and four-file allowlisted ZIP preserved the same scenario verdict and limits. ZIP readability, exact member contents, and report links were verified; pre-existing `.tmp` notes and a prior run remained unchanged and visible in source-state comparisons. Unavailable screenshots were explicitly recorded without fabricating images. This was an artifact-authoring/packaging exercise, not live product QA; no screenshots were captured or uploaded, and no Slack/Jira/PR publication occurred. Reason-only review covered unsafe output symlinks and plan-only/no-files handling; those fallback paths were not executed in this exercise.
 
 ## Version 1.5 search/filter completeness update
 

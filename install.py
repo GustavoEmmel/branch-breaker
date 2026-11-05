@@ -16,6 +16,7 @@ REQUIRED_FILES = (
     "references/mobile-execution.md", "references/pr-reporting.md",
     "references/full-stack-quality.md", "references/learning-sources.md",
     "references/ux-ui-review.md",
+    "references/run-artifacts.md",
 )
 
 
